@@ -3,7 +3,7 @@
 /* App Module */
 
 var csrfhipsterApp = angular.module('csrfhipsterApp', ['http-auth-interceptor', 'tmh.dynamicLocale',
-    'ngResource', 'ngRoute', 'ngCookies', 'pascalprecht.translate']);
+    'ngResource', 'ngRoute', 'ngCookies', 'pascalprecht.translate', 'spring-security-csrf-token-interceptor']);
 
 csrfhipsterApp
     .config(['$routeProvider', '$httpProvider', '$translateProvider',  'tmhDynamicLocaleProvider', 'USER_ROLES',

@@ -158,13 +158,16 @@ csrfhipsterApp.factory('AuthenticationSharedService', ['$rootScope', '$http', '$
 
                 return isAuthorized;
             },
+            
+            //dirty csrf logout fix (logout even on error)
             logout: function () {
                 $rootScope.authenticationError = false;
-                $http.get('app/logout')
-                    .success(function (data, status, headers, config) {
-                        Session.destroy();
-                        authService.loginCancelled();
-                    });
-            }
+                var cb = function (data, status, headers, config) {
+                    Session.destroy();
+                    authService.loginCancelled();
+                };
+                $http.get('app/logout').success(cb).error(cb);
+            } 
+
         };
     }]);
