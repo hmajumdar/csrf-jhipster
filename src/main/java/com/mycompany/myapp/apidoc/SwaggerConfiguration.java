@@ -1,4 +1,4 @@
-package com.mycompany.myapp.config.apidoc;
+package com.mycompany.myapp.apidoc;
 
 import com.mangofactory.swagger.configuration.JacksonScalaSupport;
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;

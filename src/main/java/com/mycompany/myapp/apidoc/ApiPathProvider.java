@@ -1,4 +1,4 @@
-package com.mycompany.myapp.config.apidoc;
+package com.mycompany.myapp.apidoc;
 
 import com.mangofactory.swagger.core.SwaggerPathProvider;
 import org.springframework.web.util.UriComponentsBuilder;
