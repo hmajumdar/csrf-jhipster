@@ -1,6 +1,7 @@
 package com.mycompany.myapp.config;
 
 import com.mycompany.myapp.security.*;
+import com.mycompany.myapp.web.filter.CsrfSessionCookieFilter;
 import com.mycompany.myapp.web.filter.CsrfTokenGeneratorFilter;
 
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 import javax.inject.Inject;
 
@@ -72,8 +74,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        final HttpSessionCsrfTokenRepository tokenRepository = new HttpSessionCsrfTokenRepository();
+        tokenRepository.setHeaderName("X-XSRF-TOKEN");
+
         http
-        	.addFilterAfter(new CsrfTokenGeneratorFilter(), CsrfFilter.class)
+        	.addFilterAfter(new CsrfSessionCookieFilter(), CsrfFilter.class)
             .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
@@ -94,6 +99,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(ajaxLogoutSuccessHandler)
                 .deleteCookies("JSESSIONID")
                 .permitAll()
+                .and()
+            .csrf()
+                .csrfTokenRepository(tokenRepository)
                 .and()
             .headers()
                 .frameOptions().disable()
